@@ -12,6 +12,7 @@ SRC_OBJS=			$(addprefix $(SRC_DIR)/, $(FILES:.c=.o))
 TEST_OBJS=			$(addprefix $(TEST_DIR)/, $(FILES:.c=.o))
 
 FILES=				ft_isalpha.c	\
+					ft_isdigit.c	\
 
 all:				$(NAME)
 
