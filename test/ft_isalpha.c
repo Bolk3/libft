@@ -1,21 +1,22 @@
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
+#include <limits.h>
 #include "../include/libft.h"
 
-Test(isalpha, recon_lower) {
+Test(isalpha, is_all_lower_valid) {
     for (int i = 'a'; i <= 'z'; i++) {
         cr_assert(ft_isalpha(i) != 0);
     }
 }
 
-Test(isalpha, recon_upper) {
+Test(isalpha, is_all_upper_valid) {
     for (int i = 'A'; i <= 'Z'; i++) {
         cr_assert(ft_isalpha(i) != 0);
     }
 }
 
-Test(isalpha, recon_not_alpha) {
+Test(isalpha, is_all_other_invalid) {
     for (int i = 0; i < 'A'; i++) {
         cr_assert(ft_isalpha(i) == 0);
     }
