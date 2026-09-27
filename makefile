@@ -14,6 +14,8 @@ TEST_OBJS=			$(addprefix $(TEST_DIR)/, $(FILES:.c=.o))
 FILES=				ft_isalpha.c	\
 					ft_isdigit.c	\
 					ft_isalnum.c	\
+					ft_isascii.c	\
+
 
 all:				$(NAME)
 
