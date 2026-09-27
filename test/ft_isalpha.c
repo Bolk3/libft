@@ -18,12 +18,12 @@ Test(isalpha, is_all_upper_valid) {
 
 Test(isalpha, is_all_other_invalid) {
     for (int i = 0; i < 'A'; i++) {
-        cr_assert(ft_isalpha(i) == 0);
+        cr_assert(ft_isalpha(i) == 0, "A char beteen \\0 and @ is catched");
     }
     for (int i = 'Z' + 1; i < 'a'; i++) {
-        cr_assert(ft_isalpha(i) == 0);
+        cr_assert(ft_isalpha(i) == 0, "A char between [ and ` is catched");
     }
     for (int i = 'z' + 1; i <= 127; i++) {
-        cr_assert(ft_isalpha(i) == 0);
+        cr_assert(ft_isalpha(i) == 0, "A char between { and DEL is catched");
     }
 }

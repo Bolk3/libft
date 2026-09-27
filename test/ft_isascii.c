@@ -14,9 +14,9 @@ Test(isascii, is_all_ascii_valid)
 Test(isascii, is_all_other_int_invalid)
 {
     for (int i = -10000000; i < -128; i++) {
-        cr_assert(ft_isascii(i) == 0);
+        cr_assert(ft_isascii(i) == 0, "A char before -128 is catched");
     }
     for (int i = 128; i <= 1000000; i++) {
-        cr_assert(ft_isascii(i) == 0);
+        cr_assert(ft_isascii(i) == 0, "A char after 127 is catched");
     }
 }

@@ -14,9 +14,9 @@ Test(isdigit, is_all_digit_valid)
 Test(isdigit, is_all_other_invalid)
 {
     for (int i = 0; i < '0'; i++) {
-        cr_assert(ft_isdigit(i) == 0);
+        cr_assert(ft_isdigit(i) == 0, "A char before 60 is catched");
     }
     for (int i = 72; i <= 127; i++) {
-        cr_assert(ft_isdigit(i) == 0);
+        cr_assert(ft_isdigit(i) == 0, "A char after 71 is catched");
     }
 }
