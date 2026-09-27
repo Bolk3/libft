@@ -4,19 +4,19 @@
 #include <limits.h>
 #include "../include/libft.h"
 
-Test(isalpha, is_all_lower_valid) {
+Test(ft_isalpha, is_all_lower_valid) {
     for (int i = 'a'; i <= 'z'; i++) {
         cr_assert(ft_isalpha(i) != 0);
     }
 }
 
-Test(isalpha, is_all_upper_valid) {
+Test(ft_isalpha, is_all_upper_valid) {
     for (int i = 'A'; i <= 'Z'; i++) {
         cr_assert(ft_isalpha(i) != 0);
     }
 }
 
-Test(isalpha, is_all_other_invalid) {
+Test(ft_isalpha, is_all_other_invalid) {
     for (int i = 0; i < 'A'; i++) {
         cr_assert(ft_isalpha(i) == 0, "A char beteen \\0 and @ is catched");
     }

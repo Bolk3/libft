@@ -4,7 +4,7 @@
 #include <limits.h>
 #include "../include/libft.h"
 
-Test(isalnum, is_all_alpha_valid)
+Test(ft_isalnum, is_all_alpha_valid)
 {
     for (int c = 'a'; c <= 'z'; c++) {
         cr_assert(ft_isalnum(c) != 0, "All lowercase are not catched");
@@ -14,14 +14,14 @@ Test(isalnum, is_all_alpha_valid)
     }
 }
 
-Test(isalnum, is_all_number_valid)
+Test(ft_isalnum, is_all_number_valid)
 {
     for (int c = '0'; c <= '9'; c++) {
         cr_assert(ft_isalnum(c) != 0, "All digit are not catched");
     }
 }
 
-Test(isalnum, is_all_other_invalid)
+Test(ft_isalnum, is_all_other_invalid)
 {
     for (int c = 0; c < '0'; c++) {
         cr_assert(ft_isalnum(c) == 0, "A char between \\0 and / is catched");

@@ -17,6 +17,8 @@ FILES=				ft_isalpha.c	\
 					ft_isascii.c	\
 					ft_isprint.c	\
 					ft_strlen.c		\
+					ft_memset.c		\
+					ft_bzero.c		\
 
 
 all:				$(NAME)
@@ -35,7 +37,8 @@ test:				$(SRC_OBJS) $(TEST_OBJS)
 					./$(TEST_NAME) --verbose
 
 clean:
-					rm -rf $(SRC_OBJS) $(TEST_OBJS)
+					rm -rf $(SRC_OBJS)
+					rm -rf $(TEST_OBJS)
 
 fclean:				clean
 					rm -f $(NAME) $(TEST_NAME)
