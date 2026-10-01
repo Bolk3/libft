@@ -3,23 +3,20 @@ TEST_NAME=			libft.test
 
 CC=					cc
 CFLAGS=				-Wall -Wextra -Werror
-CCRITERION=			-lcriterion --coverage
+LCRITERION=			-lcriterion --coverage $(WRAP_LDFLAGS)
+
+COMMA:=				,
+WRAP_LDFLAGS=		$(addprefix -Wl$(COMMA)--wrap=, $(WRAP))
 
 SRC_DIR=			src
 TEST_DIR=			test
-
 SRC_OBJS=			$(addprefix $(SRC_DIR)/, $(FILES:.c=.o))
 TEST_OBJS=			$(addprefix $(TEST_DIR)/, $(FILES:.c=.o))
 
-FILES=				ft_isalpha.c	\
-					ft_isdigit.c	\
-					ft_isalnum.c	\
-					ft_isascii.c	\
-					ft_isprint.c	\
-					ft_strlen.c		\
-					ft_memset.c		\
-					ft_bzero.c		\
+FILES=	
 
+WRAP=				malloc		\
+					ft_strlen
 
 all:				$(NAME)
 
@@ -33,8 +30,8 @@ $(TEST_DIR)/%.o:	$(TEST_DIR)/%.c
 					$(CC) $(CFLAGS) -c $< -o $@
 
 test:				$(SRC_OBJS) $(TEST_OBJS)
-					$(CC) $(SRC_OBJS) $(TEST_OBJS) $(CCRITERION) -o $(TEST_NAME)
-					./$(TEST_NAME) --verbose
+					$(CC) $(SRC_OBJS) $(TEST_OBJS) $(LCRITERION) -o $(TEST_NAME)
+					./$(TEST_NAME) --verbose --timeout 10 -S
 
 clean:
 					rm -rf $(SRC_OBJS)
