@@ -13,7 +13,9 @@ TEST_DIR:=			test
 SRC_OBJS=			$(addprefix $(SRC_DIR)/, $(FILES:.c=.o))
 TEST_OBJS=			$(addprefix $(TEST_DIR)/, $(FILES:.c=.o))
 
-FILES:=	
+FILES:=				ft_isalpha.c	\
+					ft_isdigit.c	\
+					ft_isalnum.c
 
 WRAP:=				malloc		\
 					ft_strlen	\
