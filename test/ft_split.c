@@ -28,7 +28,7 @@ void    *__wrap_malloc(size_t size)
     if (should_malloc_fail)
         return (NULL);
     else
-        return (malloc(size));
+        return (__real_malloc(size));
 }
 
 void    setup(void)

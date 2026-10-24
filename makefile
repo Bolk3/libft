@@ -1,22 +1,24 @@
-NAME=				libft.a
-TEST_NAME=			libft.test
+NAME:=				libft.a
+TEST_NAME:=			libft.test
 
-CC=					cc
-CFLAGS=				-Wall -Wextra -Werror
-LCRITERION=			-lcriterion --coverage $(WRAP_LDFLAGS)
+CC:=					cc
+CFLAGS:=				-Wall -Wextra -Werror
+LCRITERION:=			-lcriterion --coverage $(WRAP_LDFLAGS)
 
 COMMA:=				,
 WRAP_LDFLAGS=		$(addprefix -Wl$(COMMA)--wrap=, $(WRAP))
 
-SRC_DIR=			src
-TEST_DIR=			test
+SRC_DIR:=			src
+TEST_DIR:=			test
 SRC_OBJS=			$(addprefix $(SRC_DIR)/, $(FILES:.c=.o))
 TEST_OBJS=			$(addprefix $(TEST_DIR)/, $(FILES:.c=.o))
 
-FILES=	
+FILES:=	
 
-WRAP=				malloc		\
-					ft_strlen
+WRAP:=				malloc		\
+					ft_strlen	\
+					ft_strdup	\
+					ft_substr
 
 all:				$(NAME)
 
