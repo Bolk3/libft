@@ -1,38 +1,46 @@
-#include <criterion/criterion.h>
-#include <criterion/internal/assert.h>
-#include <criterion/internal/test.h>
-#include <limits.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/24 21:36:24 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/24 21:42:14 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include <criterion/assert.h>
+#include <ctype.h>
+#include <limits.h>
+#include <criterion/criterion.h>
 
-Test(ft_isalnum, is_all_alpha_valid)
+Test(ft_isalnum, test_all_lowercase)
 {
-    for (int c = 'a'; c <= 'z'; c++) {
-        cr_assert(ft_isalnum(c) != 0, "All lowercase are not catched");
-    }
-    for (int c = 'A'; c <= 'Z'; c++) {
-        cr_assert(ft_isalnum(c) != 0, "All uppercase are not catched");
-    }
+	for (int i = 'a'; i <= 'z'; i++) {
+		cr_assert_eq(ft_isalnum(i) != 0, isalnum(i) != 0);
+	}
 }
 
-Test(ft_isalnum, is_all_number_valid)
+Test(ft_isalnum, test_all_uppercase)
 {
-    for (int c = '0'; c <= '9'; c++) {
-        cr_assert(ft_isalnum(c) != 0, "All digit are not catched");
-    }
+	for (int i = 'A'; i <= 'Z'; i++) {
+		cr_assert_eq(ft_isalnum(i) != 0, isalnum(i) != 0);
+	}
 }
 
-Test(ft_isalnum, is_all_other_invalid)
+Test(ft_isalnum, test_all_digit)
 {
-    for (int c = 0; c < '0'; c++) {
-        cr_assert(ft_isalnum(c) == 0, "A char between \\0 and / is catched");
-    }
-    for (int c = '9' + 1; c < 'A'; c++) {
-        cr_assert(ft_isalnum(c) == 0, "A char between : and @ is catched");
-    }
-    for (int c = 'Z' + 1; c < 'a'; c++) {
-        cr_assert(ft_isalnum(c) == 0, "A char between [ and ` is catched");
-    }
-    for (int c = 'z' + 1; c <= 127; c++) {
-        cr_assert(ft_isalnum(c) == 0, "A char between { and DEL is catched");
-    }
+	for (int i = '0'; i <= '9'; i++) {
+		cr_assert_eq(ft_isalnum(i) != 0, isalnum(i) != 0);
+	}
+}
+
+Test(ft_isalnum, test_all_non_alnum)
+{
+	for (int i = CHAR_MIN; i <= CHAR_MAX; i++) {
+		if (!isalnum(i))
+			cr_assert_eq(ft_isalnum(i) != 0, isalnum(i) != 0);
+	}
 }
