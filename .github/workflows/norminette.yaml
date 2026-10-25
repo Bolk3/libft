@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'src/**'
+      - 'include/**'
 
 jobs:
   check-norminette:
@@ -16,4 +17,6 @@ jobs:
       - name: Norminette
         uses: 42School/norminette@3.3.60
         with:
-          args: 'src'
+          args:
+            - 'src'
+            - 'include'
