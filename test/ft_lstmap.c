@@ -6,7 +6,7 @@
 /*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 10:51:55 by resonnet          #+#    #+#             */
-/*   Updated: 2026/10/29 12:29:06 by resonnet         ###   ########.fr       */
+/*   Updated: 2026/10/29 15:16:45 by resonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stddef.h>
 #include <string.h>
 
-static void	setup(void)
+static void	teardown(void)
 {
 	should_malloc_fail = false;
 }
@@ -30,7 +30,7 @@ static void	*manip(void *ptr)
 	return (cpy);
 }
 
-TestSuite(ft_lstmap, .init=setup);
+TestSuite(ft_lstmap, .fini=teardown);
 
 Test(ft_lstmap, test_malloc_fail)
 {

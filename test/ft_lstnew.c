@@ -6,7 +6,7 @@
 /*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 22:14:35 by resonnet          #+#    #+#             */
-/*   Updated: 2026/10/29 12:29:01 by resonnet         ###   ########.fr       */
+/*   Updated: 2026/10/29 15:16:56 by resonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-void	setup(void)
+static void	teardown(void)
 {
 	should_malloc_fail = false;
 }
 
-TestSuite(ft_lstnew, .init=setup);
+TestSuite(ft_lstnew, .fini=teardown);
 
 Test(ft_lstnew, test_malloc_fail)
 {
