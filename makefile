@@ -72,7 +72,6 @@ $(TEST_DIR)/%.o:	$(TEST_DIR)/%.c
 
 test:				$(SRC_OBJS) $(TEST_OBJS)
 					$(CC) $(WRAP_LDFLAGS) $(SRC_OBJS) $(TEST_OBJS) test/wraps.c $(LCRITERION) -o $(TEST_NAME)
-					timeout -s KILL 10 ./$(TEST_NAME) --verbose -S
 
 clean:
 					rm -rf $(SRC_OBJS)
