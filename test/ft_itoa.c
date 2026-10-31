@@ -65,6 +65,17 @@ Test(ft_itoa, test_rand_int)
 	cr_assert_str_eq(expected, test);
 }
 
+Test(ft_itoa, test_rand_neg_int)
+{
+	srand(time(NULL));
+	int		nbr = ((rand() % INT32_MAX) + 1) * -1;
+	char	*test = ft_itoa(nbr);
+	char	expected[500];
+
+	sprintf(expected, "%i", nbr);
+	cr_assert_str_eq(expected, test);
+}
+
 Test(ft_itoa, test_malloc_fail)
 {
 	malloc_fail_at = 1;

@@ -12,25 +12,26 @@
 
 #include "../include/libft.h"
 #include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
 
-static char	*reverse_char(char *s, int n)
+static char	*reverse_arr_str(char *str, int size, int offset)
 {
-	size_t	i;
+	int		i;
 	char	tmp;
 
 	i = 0;
-	while (i < (n - 1) / 2)
+	while (i < size / 2)
 	{
-		tmp = s[i];
-		s[i] = s[n - i - 1];
-		s[n - i - 1] = tmp;
+		tmp = str[i];
+		str[i] = str[size - i - 1];
+		str[size - i - 1] = tmp;
 		i++;
 	}
-	return (s);
+	return (str - offset);
 }
 
-static int	get_number_size(int n)
+static int	get_str_size(int n)
 {
 	int	res;
 
@@ -51,26 +52,28 @@ static int	get_number_size(int n)
 char	*ft_itoa(int n)
 {
 	char	*res;
-	size_t	i;
-	int		f_neg;
 	int		size;
+	int		i;
+	long	nb;
 
-	size = get_number_size(n) + 1;
-	res = malloc(size);
+	nb = n;
+	i = 0;
+	size = get_str_size(n);
+	res = malloc(size + 1);
 	if (!res)
 		return (NULL);
-	i = 0;
 	if (n < 0)
-		f_neg = 1;
-	else
-		f_neg = 0;
-	while (n)
 	{
-		res[i++] = n % 10;
-		n /= 10;
-	}
-	if (f_neg)
 		res[i++] = '-';
+		nb *= -1;
+	}
+	while (i < size)
+	{
+		res[i++] = (nb % 10) + '0';
+		nb /= 10;
+	}
 	res[i] = 0;
-	return (reverse_char(res, size));
+	if (n < 0)
+		return (reverse_arr_str(res + 1, size - 1, 1));
+	return (reverse_arr_str(res, size, 0));
 }
