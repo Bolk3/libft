@@ -17,15 +17,20 @@
 #include <criterion/internal/test.h>
 #include <stdio.h>
 
-static void	teardown(void)
+static void	setup(void)
 {
-	should_malloc_fail = false;
+	malloc_fail_at = 0;
 }
 
-TestSuite(ft_strjoin, .fini=teardown);
+static void	teardown(void)
+{
+	malloc_fail_at = 0;
+}
+
+TestSuite(ft_strjoin, .init=setup, .fini=teardown);
 Test(ft_strjoin, test_malloc_fail)
 {
-	should_malloc_fail = true;
+	malloc_fail_at = 1;
 	char	*s1 = "omedeto";
 	char	*s2 = ", shinji";
 	char	*test = ft_strjoin(s1, s2);

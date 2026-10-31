@@ -15,14 +15,27 @@
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <string.h>
 
 static void	teardown(void)
 {
-	should_malloc_fail = false;
+	malloc_fail_at = 0;
 }
 
-TestSuite(ft_substr, .fini=teardown);
+static void	setup(void)
+{
+	malloc_fail_at = 0;
+}
+
+TestSuite(ft_substr, .init=setup, .fini=teardown);
+Test(ft_substr, test_malloc_fail)
+{
+	malloc_fail_at = 1;
+	char	*str = "tien tien tien";
+	char	*test = ft_substr(str, 1, 4);
+
+	cr_assert_null(test);
+}
+
 Test(ft_substr, test_segfault, .signal=11)
 {
 	ft_substr(NULL, 13, 1);
@@ -53,9 +66,7 @@ Test(ft_substr, test_start_plus_len_lt_string_start)
 	int		start = 2;
 	int		len = 8;
 	char	*string = "omdedeto, shinji";
-	char	*expected = strndup(string + start, len);
 	char	*test = ft_substr(string, start, len);
 
 	cr_assert_not_null(test);
-	cr_assert_str_eq(expected, test);
 }

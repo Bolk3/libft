@@ -3,7 +3,7 @@ TEST_NAME:=			libft.test
 
 CC:=					cc
 CFLAGS:=				-Wall -Wextra -Werror
-LCRITERION:=			-lcriterion --coverage $(WRAP_LDFLAGS)
+LCRITERION:=			-lcriterion --coverage 
 
 COMMA:=				,
 WRAP_LDFLAGS=		$(addprefix -Wl$(COMMA)--wrap=, $(WRAP))
@@ -21,12 +21,43 @@ FILES:=				ft_isalpha.c	\
 					ft_strlen.c		\
 					ft_memset.c		\
 					ft_bzero.c		\
-					ft_memmove.c
+					ft_memcpy.c		\
+					ft_memmove.c	\
+					ft_strlcpy.c	\
+					ft_strlcat.c	\
+					ft_toupper.c	\
+					ft_tolower.c	\
+					ft_strchr.c		\
+					ft_strrchr.c	\
+					ft_strncmp.c	\
+					ft_memchr.c		\
+					ft_memcmp.c		\
+					ft_strnstr.c	\
+					ft_atoi.c		\
+					ft_strdup.c		\
+					ft_calloc.c		\
+					ft_substr.c		\
+					ft_strjoin.c	\
+					ft_strtrim.c	\
+					ft_split.c		\
+					ft_itoa.c		\
+					ft_strmapi.c	\
+					ft_striteri.c	\
+					ft_putchar_fd.c	\
+					ft_putstr_fd.c	\
+					ft_putendl_fd.c	\
+					ft_putnbr_fd.c	\
+					ft_lstnew.c		\
+					ft_lstadd_front.c	\
+					ft_lstsize.c	\
+					ft_lstlast.c	\
+					ft_lstadd_back.c	\
+					ft_lstdelone.c	\
+					ft_lstclear.c	\
+					ft_lstiter.c	\
+					ft_lstmap.c
 
-WRAP:=				malloc		\
-					ft_strlen	\
-					ft_strdup	\
-					ft_substr
+WRAP:=				malloc
 
 all:				$(NAME)
 
@@ -40,8 +71,8 @@ $(TEST_DIR)/%.o:	$(TEST_DIR)/%.c
 					$(CC) $(CFLAGS) -c $< -o $@
 
 test:				$(SRC_OBJS) $(TEST_OBJS)
-					$(CC) $(SRC_OBJS) $(TEST_OBJS) $(LCRITERION) -o $(TEST_NAME)
-					./$(TEST_NAME) --verbose --timeout 10 -S
+					$(CC) $(WRAP_LDFLAGS) $(SRC_OBJS) $(TEST_OBJS) test/wraps.c $(LCRITERION) -o $(TEST_NAME)
+					timeout -s KILL 10 ./$(TEST_NAME) --verbose -S
 
 clean:
 					rm -rf $(SRC_OBJS)
@@ -49,6 +80,7 @@ clean:
 
 fclean:				clean
 					rm -f $(NAME) $(TEST_NAME)
+					rm -f *.gc*
 
 re:					fclean all
 

@@ -15,10 +15,16 @@
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
+#include <stdbool.h>
+
+static void	setup(void)
+{
+	malloc_fail_at = 0;
+}
 
 static void	teardown(void)
 {
-	should_malloc_fail = false;
+	malloc_fail_at = 0;
 }
 
 static int	lstsize(char **lst)
@@ -31,10 +37,10 @@ static int	lstsize(char **lst)
 	return (i);
 }
 
-TestSuite(ft_split, .fini=teardown);
+TestSuite(ft_split, .init=setup, .fini=teardown);
 Test(ft_split, test_malloc_fail)
 {
-	should_malloc_fail = true;
+	malloc_fail_at = 1;
 	char	**test = ft_split("omedeto, shinji", ' ');
 
 	cr_assert_null(test);

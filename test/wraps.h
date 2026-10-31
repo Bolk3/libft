@@ -13,9 +13,8 @@
 #define	WRAPS_H
 #ifdef WRAPS_H
 # include <stddef.h>
-# include <stdbool.h>
 
-extern bool	should_malloc_fail;
+extern int	malloc_fail_at;
 
 extern void	*__real_malloc(size_t size);
 void		*__wrap_malloc(size_t size);

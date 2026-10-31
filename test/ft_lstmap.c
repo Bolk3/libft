@@ -19,9 +19,14 @@
 #include <stddef.h>
 #include <string.h>
 
+static void	setup(void)
+{
+	malloc_fail_at = 0;
+}
+
 static void	teardown(void)
 {
-	should_malloc_fail = false;
+	malloc_fail_at = 0;
 }
 
 static void	*manip(void *ptr)
@@ -30,11 +35,11 @@ static void	*manip(void *ptr)
 	return (cpy);
 }
 
-TestSuite(ft_lstmap, .fini=teardown);
+TestSuite(ft_lstmap, .init=setup, .fini=teardown);
 
 Test(ft_lstmap, test_malloc_fail)
 {
-	should_malloc_fail = true;
+	malloc_fail_at = 1;
 
 	char	*str = "def";
 	t_list	em = {.next=NULL, .content=&str};

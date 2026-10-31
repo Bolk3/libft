@@ -16,9 +16,14 @@
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
 
+static void	setup(void)
+{
+	malloc_fail_at = 0;
+}
+
 static void	teardown(void)
 {
-	should_malloc_fail = false;
+	malloc_fail_at = 0;
 }
 
 char	manip(unsigned int i, char c)
@@ -27,10 +32,10 @@ char	manip(unsigned int i, char c)
 	return (c);
 }
 
-TestSuite(ft_strmapi, .fini=teardown);
+TestSuite(ft_strmapi, .init=setup, .fini=teardown);
 Test(ft_strmapi, test_malloc_fail)
 {
-	should_malloc_fail = true;
+	malloc_fail_at = 1;
 	char	*test = ft_strmapi("test", manip);
 
 	cr_assert_null(test);

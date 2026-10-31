@@ -16,15 +16,20 @@
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
 
-static void	teardown(void)
+static void	setup(void)
 {
-	should_malloc_fail = false;
+	malloc_fail_at = 0;
 }
 
-TestSuite(ft_calloc, .fini=teardown);
+static void	teardown(void)
+{
+	malloc_fail_at = 0;
+}
+
+TestSuite(ft_calloc, .init=setup, .fini=teardown);
 Test(ft_calloc, test_malloc_fail)
 {
-	should_malloc_fail = true;
+	malloc_fail_at = 1;
 	char	*test = ft_calloc(10, 1);
 
 	cr_assert_null(test);

@@ -11,13 +11,12 @@
 /* ************************************************************************** */
 
 #include "wraps.h"
-#include <stdbool.h>
 
-bool	should_malloc_fail = false;
+int	malloc_fail_at = 0;
 
 void	*__wrap_malloc(size_t size)
 {
-	if (should_malloc_fail)
+	if (malloc_fail_at > 0 && --malloc_fail_at == 0)
 		return (NULL);
 	return (__real_malloc(size));
 }

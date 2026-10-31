@@ -17,7 +17,7 @@
 
 Test(ft_memchr, test_segfault, .signal=11)
 {
-	char	*test = ft_memchr(NULL, 3, 13);
+	ft_memchr(NULL, 3, 13);
 }
 
 Test(ft_memchr, test_c_not_in_s_in_range)

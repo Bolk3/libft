@@ -16,15 +16,21 @@
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
 
-static void	teardown(void)
+static void	setup(void)
 {
-	should_malloc_fail = false;
+	malloc_fail_at = 0;
 }
 
-TestSuite(ft_strdup, .fini=teardown);
+static void	teardown(void)
+{
+	malloc_fail_at = 0;
+}
+
+TestSuite(ft_strdup, .init=setup, .fini=teardown);
+
 Test(ft_strdup, test_malloc_fail)
 {
-	should_malloc_fail = true;
+	malloc_fail_at = 1;
 	char	*str = "test";
 	char	*test = ft_strdup(str);
 

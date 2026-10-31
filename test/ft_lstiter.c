@@ -15,7 +15,7 @@
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
 
-void	manip(void *ptr)
+static void	manip(void *ptr)
 {
 	char	*str = (char *)ptr;
 

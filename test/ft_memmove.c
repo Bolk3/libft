@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #include "../include/libft.h"
-#include <signal.h>
 #include <criterion/criterion.h>
 #include <criterion/assert.h>
+#include <signal.h>
 #include <strings.h>
 
-Test(ft_memmove, test_segfault_dest, .init=SIGSEGV)
+Test(ft_memmove, test_segfault_dest, .signal=SIGSEGV)
 {
 	char	test[15];
 
@@ -24,7 +24,7 @@ Test(ft_memmove, test_segfault_dest, .init=SIGSEGV)
 	ft_memmove(NULL, test, 15);
 }
 
-Test(ft_memmove, test_segfault_src, .init=SIGSEGV)
+Test(ft_memmove, test_segfault_src, .signal=SIGSEGV)
 {
 	char	test[15];
 
