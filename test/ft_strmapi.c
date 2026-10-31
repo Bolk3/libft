@@ -1,76 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/30 11:39:47 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/30 12:05:28 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include "wraps.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <ctype.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <wchar.h>
 
-bool    should_malloc_fail = false;
-
-void    *__real_malloc(size_t size);
-void    *__warp_malloc(size_t size)
+static void	teardown(void)
 {
-    if (should_malloc_fail)
-        return (NULL);
-    else
-        return (__real_malloc(size));
+	should_malloc_fail = false;
 }
 
-void    setup(void)
+char	manip(unsigned int i, char c)
 {
-    should_malloc_fail = false;
+	(void)i;
+	return (c);
 }
 
-char    test_func_0(unsigned int i, char c)
+TestSuite(ft_strmapi, .fini=teardown);
+Test(ft_strmapi, test_malloc_fail)
 {
-    if (i % 2 == 0)
-        return (toupper(c));
-    return (tolower(c));
+	should_malloc_fail = true;
+	char	*test = ft_strmapi("test", manip);
+
+	cr_assert_null(test);
 }
 
-char    test_func_1(unsigned int i, char c)
+Test(ft_strmapi, test_segfault, .signal=11)
 {
-    (void) i;
-    return(toupper(c));
+	ft_strmapi(NULL, manip);
 }
 
-TestSuite(ft_strmapi, .init=setup);
-Test(ft_strmapi, return_null_malloc_fail)
+Test(ft_strmapi, test_empty_str)
 {
-    char    *res;
+	char	*test = ft_strmapi("", manip);
 
-    should_malloc_fail = true;
-    res = ft_strmapi("omdedeto shinji", test_func_0);
-    cr_assert_null(res);
+	cr_assert_not_null(test);
+	cr_assert_str_empty(test);
 }
 
-Test(ft_strmapi, segfault_if_null_ptr, .signal=11)
+Test(ft_strmapi, test_str)
 {
-    char    *res;
-
-    res = ft_strmapi(NULL, test_func_0);
-}
-
-Test(ft_strmapi, return_string_through_test_0)
-{
-    char    *res;
-    char    *test = "Test Test Test";
-
-    for (int i = 0; test[i]; i++)
-        test[i] = test_func_0(i, test[i]);
-    res = ft_strmapi("Test Test Test", test_func_0);
-    cr_assert_str_eq(res, test);
-}
-
-Test(ft_strmapi, return_string_through_test_1)
-{
-    char    *res;
-    char    *test = "Bonjour Bonjour";
-
-    for (int i = 0; test[i]; i++)
-        test[i] = test_func_1(i, test[i]);
-    res = ft_strmapi("Bonjour Bonjour", test_func_1);
-    cr_assert_str_eq(test, res);
+	char	*str = "omedeto, shinji";
+	char	*test = ft_strmapi(str, manip);
+	
+	cr_assert_not_null(test);
+	cr_assert_str_not_empty(test);
+	cr_assert_str_eq(test, str);
 }

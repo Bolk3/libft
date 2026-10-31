@@ -1,71 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/29 14:46:42 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/29 15:14:28 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include "wraps.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
+#include <criterion/logging.h>
 #include <stdbool.h>
-#include <stddef.h>
+#include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
+#include <time.h>
 
-bool    should_malloc_fail = false;
-
-void    *__real_malloc(size_t size);
-void    *__wrap_malloc(size_t size)
+static void	teardown(void)
 {
-    if (should_malloc_fail)
-        return (NULL);
-    else
-        return (__real_malloc(size));
+	should_malloc_fail = false;
 }
 
-void    setup(void)
+TestSuite(ft_itoa, .fini=teardown);
+
+Test(ft_itoa, test_int_min)
 {
-    should_malloc_fail = false;
+	int		nbr = INT32_MIN;
+	char	*test = ft_itoa(nbr);
+	char	expected[500];
+
+	sprintf(expected, "%i", nbr);
+	cr_assert_str_eq(expected, test);
 }
 
-TestSuite(ft_itoa, .init=setup);
-
-Test(ft_itoa, return_null_if_malloc_fail)
+Test(ft_itoa, test_zero)
 {
-    char    *res;
+	int		nbr = 0;
+	char	*test = ft_itoa(nbr);
+	char	expected[500];
 
-    should_malloc_fail = true;
-    res = ft_itoa(42);
-    cr_assert_null(res);
+	sprintf(expected, "%i", nbr);
+	cr_assert_str_eq(expected, test);
 }
 
-Test(ft_itoa, return_neg_number_string_0)
+Test(ft_itoa, test_rand_int)
 {
-    char    *res;
+	srand(time(NULL));
+	int		nbr = (rand() % INT32_MAX) + 1;
+	char	*test = ft_itoa(nbr);
+	char	expected[500];
 
-    res = ft_itoa(-42);
-    cr_assert_str_eq(res, "-42");
+	sprintf(expected, "%i", nbr);
+	cr_assert_str_eq(expected, test);
 }
 
-Test(ft_itoa, return_neg_number_string_1)
+Test(ft_itoa, test_malloc_fail)
 {
-    char    *res;
+	should_malloc_fail = true;
+	int		nbr = 42;
+	char	*test = ft_itoa(nbr);
 
-    res = ft_itoa(-234);
-    cr_assert_str_eq(res, "-234");
-}
-
-Test(ft_itoa, return_neg_number_string_2)
-{
-    char    *res;
-
-    res = ft_itoa(-5673);
-    cr_assert_str_eq(res, "-5673");
-}
-
-Test(ft_itoa, return_number_string)
-{
-    char    *res;
-
-    res = ft_itoa(42);
-    cr_assert_str_eq(res, "42");
-}
-
-Test(ft_itoa, return_zero_string)
-{
-    cr_assert_str_eq(ft_itoa(0), "0");
+	cr_assert_null(test);
 }

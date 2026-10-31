@@ -1,33 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/30 13:54:14 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/30 14:08:19 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <stdint.h>
-#include <wchar.h>
+#include <stdlib.h>
 
-Test(ft_atoi, more_than_one_sign_equals_zero)
+Test(ft_atoi, test_segfault, .signal=11)
 {
-    cr_assert_eq(ft_atoi("--42"), 0);
-    cr_assert_eq(ft_atoi("+-42"), 0);
-    cr_assert_eq(ft_atoi("++42"), 0);
+	ft_atoi(NULL);
 }
 
-Test(ft_atoi, return_max_int)
+Test(ft_atoi, test_huge_number_space_before_nbr)
 {
-    cr_assert_eq(ft_atoi("2147483647"), 2147483647);
+	char	*str = "         42";
+	int		test = ft_atoi(str);
+
+	cr_assert_eq(test, atoi(str));
 }
 
-Test(ft_atoi, return_min_int)
+Test(ft_atoi, test_multiple_sign_should_return_zero)
 {
-    cr_assert_eq(ft_atoi("-2147483647"), -2147483647);
+	char	*str = "---124";
+	int		test = ft_atoi(str);
+
+	cr_assert_eq(test, atoi(str));
 }
 
-Test(ft_atoi, return_first_part_of_string)
+Test(ft_atoi, test_number_behind_non_numbers)
 {
-    cr_assert_eq(ft_atoi("42quarante_deux"), 42);
-}
+	char	*str = "134ab812";
+	int		test = ft_atoi(str);
 
-Test(ft_atoi, null_pointer_should_segfault, .signal=11)
-{
-    ft_atoi(NULL);
+	cr_assert_eq(test, atoi(str));
 }

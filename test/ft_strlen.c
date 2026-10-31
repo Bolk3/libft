@@ -1,34 +1,36 @@
-#include <criterion/criterion.h>
-#include <criterion/internal/assert.h>
-#include <criterion/internal/test.h>
-#include <signal.h>
-#include <stddef.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/24 22:10:56 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/24 22:35:25 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include <criterion/assert.h>
+#include <signal.h>
+#include <string.h>
+#include <stddef.h>
+#include <criterion/criterion.h>
 
-Test(ft_strlen, is_size_null_valid)
+Test(ft_strlen, test_segfault, .signal=SIGSEGV)
 {
-    cr_assert(ft_strlen("") == 0);
+	ft_strlen(NULL);
 }
 
-Test(ft_strlen, is_stopping_at_first_null_byte)
+Test(ft_strlen, test_return_when_null_inbetween)
 {
-    char    test[] = {'a', 'b', 'c', 0, 'd', 0};
-    cr_assert(ft_strlen(test) == 3);
+	char	a[] = {'b', 'e', 'l', 'l', 0, 'e', ' '};
+	cr_assert_eq(ft_strlen(a), strlen(a));
 }
 
-Test(ft_strlen, sefault_on_null_pointer, .signal = SIGSEGV)
+Test(ft_strlen, test_normal_string_0)
 {
-    ft_strlen(NULL);
-}
+	char	a[] = "asdcxc0091239841\t..,,.;/,kl;;..\\,,.l,mmasmdwjasdmm\nnannsda";
 
-Test(ft_strlen, nominal)
-{
-    cr_assert(ft_strlen("hello") == strlen("hello"));
-}
-
-Test(ft_strlen, long_string)
-{
-    char    *test = "abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {} abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI JKL MNO PQRS TUV WXYZ !§ $%& /() =?* '<> #|; ²³~ @`´ ©«» ¤¼× {}abc def ghi jkl mno pqrs tuv wxyz ABC DEF GHI";
-    cr_assert(ft_strlen(test) == strlen(test));
+	cr_assert_eq(ft_strlen(a), strlen(a));
 }

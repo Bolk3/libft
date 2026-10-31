@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/24 21:00:24 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/24 21:35:27 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/libft.h"
+#include <criterion/assert.h>
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
 #include <limits.h>
-#include "../include/libft.h"
+#include <ctype.h>
 
-Test(ft_isalpha, is_all_lower_valid) {
-    for (int i = 'a'; i <= 'z'; i++) {
-        cr_assert(ft_isalpha(i) != 0);
-    }
+Test(ft_isalpha, test_all_lowercase)
+{
+	for (int i = 'a'; i <= 'z'; i++) {
+		cr_assert_eq(ft_isalpha(i) != 0, isalpha(i) != 0);
+	}
 }
 
-Test(ft_isalpha, is_all_upper_valid) {
-    for (int i = 'A'; i <= 'Z'; i++) {
-        cr_assert(ft_isalpha(i) != 0);
-    }
+Test(ft_isalpha, test_all_uppercase)
+{
+	for (int i = 'A'; i <= 'Z'; i++) {
+		cr_assert_eq(ft_isalpha(i) != 0, isalpha(i) != 0);
+	}
 }
 
-Test(ft_isalpha, is_all_other_invalid) {
-    for (int i = 0; i < 'A'; i++) {
-        cr_assert(ft_isalpha(i) == 0, "A char beteen \\0 and @ is catched");
-    }
-    for (int i = 'Z' + 1; i < 'a'; i++) {
-        cr_assert(ft_isalpha(i) == 0, "A char between [ and ` is catched");
-    }
-    for (int i = 'z' + 1; i <= 127; i++) {
-        cr_assert(ft_isalpha(i) == 0, "A char between { and DEL is catched");
-    }
+Test(ft_isalpha, test_all_non_alpha)
+{
+	for (int i = CHAR_MIN; i <= CHAR_MAX; i++) {
+		if (!(i >= 'a' && i <= 'z') && !(i >= 'A' && i <= 'Z'))
+			cr_assert_eq(ft_isalpha(i) != 0, isalpha(i) != 0);
+	}
 }

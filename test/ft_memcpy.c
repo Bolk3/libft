@@ -1,38 +1,42 @@
-#include <criterion/criterion.h>
-#include <criterion/internal/assert.h>
-#include <criterion/internal/test.h>
-#include <criterion/logging.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <wchar.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/25 12:31:39 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/25 17:01:14 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include <criterion/logging.h>
+#include <strings.h>
+#include <signal.h>
+#include <criterion/criterion.h>
+#include <criterion/assert.h>
 
-Test(ft_memcpy, is_copying_full_lenght)
+Test(ft_memcpy, test_segfault_dest, .signal=SIGSEGV)
 {
-    char    *src = "test test test";
-    char    *dest = malloc(strlen(src) + 1);
-
-    if (!dest)
-        cr_assert(false, "cannot malloc enought memory for test");
-    dest = ft_memcpy(dest, src, strlen(src) + 1);
-    for (int i = 0; src[i]; i++) {
-        cr_expect_eq(src[i], dest[i]);
-    }
-    free(dest);
+	char	test[15] = "test";
+	ft_memcpy(NULL, test, 15);
 }
 
-Test(ft_memcpy, segfault_on_void_dest, .signal=11)
+Test(ft_memcpy, test_segfault_src, .signal=SIGSEGV)
 {
-    char    *src = "test";
-
-    ft_memcpy(NULL, src, 4);
+	char	test[15] = "test";
+	ft_memcpy(test, NULL, 15);
 }
 
-Test(ft_memcpy, segfault_on_void_src, .signal=11)
+Test(ft_memcpy, test_non_overlaping_array)
 {
-    char    dest[5];
+	char	dest[15];
+	char	src[] = "omedeto shinji!";
 
-    ft_memcpy(dest, NULL, 5);
+	ft_memcpy(dest, src, 15);
+	for (int i = 0; i < 15; i++) {
+		cr_log_info("%c, %c", dest[i], src[i]);
+		cr_expect_eq(dest[i], src[i]);
+	}
 }

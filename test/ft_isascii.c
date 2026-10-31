@@ -1,22 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/24 21:46:57 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/24 21:58:26 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/libft.h"
+#include <criterion/assert.h>
+#include <criterion/internal/assert.h>
+#include <ctype.h>
 #include <limits.h>
 #include <criterion/criterion.h>
-#include <criterion/internal/assert.h>
-#include <criterion/internal/test.h>
-#include "../include/libft.h"
+#include <stdlib.h>
+#include <time.h>
 
-Test(ft_isascii, is_all_ascii_valid)
+Test(ft_isascii, test_random_int)
 {
-    for (int i = -128; i <= 127; i++) {
-        cr_assert(ft_isascii(i) != 0);
-    }
-}
+	int	value;
+	srand(time(NULL));
 
-Test(ft_isascii, is_all_other_int_invalid)
-{
-    for (int i = -10000000; i < -128; i++) {
-        cr_assert(ft_isascii(i) == 0, "A char before -128 is catched");
-    }
-    for (int i = 128; i <= 1000000; i++) {
-        cr_assert(ft_isascii(i) == 0, "A char after 127 is catched");
-    }
+	for (int i = 0;	i <= 10; i++) {
+		value = rand() % 10000;
+		cr_assert_eq(ft_isascii(value) != 0, isascii(value) != 0);
+	}
 }

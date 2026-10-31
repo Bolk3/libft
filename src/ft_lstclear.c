@@ -15,7 +15,6 @@
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*current;
-
 	current = ft_lstlast(*lst);
 	while (current)
 	{

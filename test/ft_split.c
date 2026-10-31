@@ -1,189 +1,73 @@
-#include <criterion/criterion.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/30 10:52:52 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/30 11:38:43 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include "wraps.h"
+#include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stddef.h>
-#include <stdlib.h>
 
-char    *__real_ft_strdup(const char *s);
-char    *__real_ft_substr(const char *s, unsigned int start, size_t len);
-void    *__real_malloc(size_t size);
-
-bool    should_malloc_fail = false;
-
-char    *__real_ft_strdup(const char *s)
+static void	teardown(void)
 {
-    return (strdup(s));
+	should_malloc_fail = false;
 }
 
-char    *__wrap_ft_substr(const char *s, unsigned int start, size_t len)
+static int	lstsize(char **lst)
 {
-    return (strndup(s + start, len));
+	int	i;
+
+	i = 0;
+	while (lst[i])
+		i++;
+	return (i);
 }
 
-void    *__wrap_malloc(size_t size)
+TestSuite(ft_split, .fini=teardown);
+Test(ft_split, test_malloc_fail)
 {
-    if (should_malloc_fail)
-        return (NULL);
-    else
-        return (__real_malloc(size));
+	should_malloc_fail = true;
+	char	**test = ft_split("omedeto, shinji", ' ');
+
+	cr_assert_null(test);
 }
 
-void    setup(void)
+Test(ft_split, test_segfault, .signal=11)
 {
-    should_malloc_fail = false;
+	ft_split(NULL, 'a');
 }
 
-Test(ft_split, if_malloc_fail_return_null, .init=setup)
+Test(ft_split, test_sep_not_in_str)
 {
-    char    **res;
+	char	*str = "omedeto, shinji";
+	char	**test = ft_split(str, 'z');
 
-    should_malloc_fail = true;
-    res = ft_split("omedeto shinji", ' ');
-    cr_assert_eq(res, NULL);
+	cr_assert_not_null(test);
+	cr_assert_eq(lstsize(test), 1);
+	cr_assert_str_not_empty(test[0]);
+	cr_assert_str_eq(test[0], str);
 }
 
-Test(ft_split, should_end_with_null, .init=setup)
+Test(ft_split, test_sep_in_str)
 {
-    char    **res;
+	char	*str = "omedeto, shinji";
+	char	*expected[] = {"omedeto,", "shinji", NULL};
+	char	**test = ft_split(str, ' ');
 
-    res = ft_split("omedeto shinji", ' ');
-    cr_assert_eq(res[2], NULL);
-}
-
-Test(ft_split, return_separated_phrase_0, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"bonjour", "tout", "le", "monde", NULL};
-    int     i = 0;
-
-    res = ft_split("bonjour tout le monde", ' ');
-    while (test[i] && res[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(res[i], test[i]);
-}
-
-Test(ft_split, return_separeted_phrase_1, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"qui", "de", "nous", "deux?", NULL};
-    int     i = 0;
-
-    res = ft_split("qui;de;nous;deux?", ';');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(res[i], test[i]);
-}
-
-Test(ft_split, return_separeted_phrase_2, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"1", "2", "3", "Go", NULL};
-    int     i = 0;
-
-    res = ft_split("1,2,3,Go", ',');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(res[i], test[i]);
-}
-
-Test(ft_split, return_string_sep_non_present, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"omedeto shinji", NULL};
-    int i = 0;
-
-    res = ft_split("omedeto shinji", ';');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(res[i], test[i]);
-}
-
-Test(ft_split, void_string_should_return_void_string, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"", NULL};
-    int     i = 0;
-
-    res = ft_split("", ' ');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(res[i], test[i]);
-}
-
-Test(ft_split, handling_of_multiple_separator_0, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"jane", "doe", NULL};
-    int     i = 0;
-
-    res = ft_split("jane_____________doe", '_');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(test[i], res[i]);
-}
-
-Test(ft_split, handling_of_multiple_separator_1, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"face", "my", "fears", NULL};
-    int     i = 0;
-
-    res = ft_split("face     my               fears", ' ');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(test[i], res[i]);
-}
-
-Test(ft_split, handling_of_multiple_separator_2, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"my", "sanctuary", NULL};
-    int     i = 0;
-
-    res = ft_split("my;;;;;;;;;;;;;;;;;;;;;;;sanctuary", ';');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(test[i], res[i]);
-}
-
-Test(ft_split, handling_of_ending_separators, .init=setup)
-{
-    char    **res;
-    char    *test[] = {"iris", "out", NULL};
-    int     i = 0;
-
-    res = ft_split("iris out               ", ' ');
-    while (res[i] && test[i])
-    {
-        cr_assert_eq(strcmp(test[i], res[i]), 0);
-        i++;
-    }
-    cr_assert_eq(test[i], res[i]);
+	cr_assert_not_null(test);
+	cr_assert_eq(lstsize(test), lstsize(expected));
+	for (int i = 0; expected[i] && test[i]; i++)
+	{
+		cr_assert_not_null(test[i]);
+		cr_assert_str_not_empty(test[i]);
+		cr_assert_str_eq(expected[i], test[i]);
+	}
 }

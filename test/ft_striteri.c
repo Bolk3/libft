@@ -1,49 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/30 12:36:49 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/30 13:25:05 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/libft.h"
+#include "wraps.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <ctype.h>
-#include "../include/libft.h"
 
-void    test_func(unsigned int i, char *s)
+static void	manip(unsigned int i, char *str)
 {
-    s[i] = toupper(s[i]);
+	str[i] = str[i] + 1;
 }
 
-void    test_func_1(unsigned int i, char *s)
+Test(ft_striteri, test_segfault, .signal=11)
 {
-    s[i] = (s[i] + i) % 128;
+	ft_striteri(NULL, manip);
 }
 
-Test(ft_striteri, segfault_if_null_ptr, .signal=11)
+Test(ft_striteri, test_empty_str)
 {
-    char    *test = NULL;
-    ft_striteri(test, test_func);
+	char	*test = "";
+	ft_striteri(test, manip);
+
+	cr_assert_not_null(test);
+	cr_assert_str_empty(test);
 }
 
-Test(ft_striteri, string_return_test_0)
+Test(ft_striteri, test_str)
 {
-    char    *res = "Bonjour;;Bonjour";
-    char    *test = "BONJOUR;;BONJOUR";
+	char	*test = "test";
+	char	*expected = "uftu";
+	ft_striteri(test, manip);
 
-    ft_striteri(res, test_func);
-    cr_assert_str_eq(res , test);
-}
-
-Test(ft_striteri, void_string_return_void)
-{
-    char    *res = "";
-
-    ft_striteri(res, test_func);
-    cr_assert_str_empty(res);
-}
-
-Test(ft_striteri, string_return_test_1)
-{
-    char    *res = "on s'enuit";
-    char    *test = "on s'enuit";
-
-    for (int i = 0; test[i]; i++)
-        test_func_1(i, test);
-    ft_striteri(test, test_func_1);
-    cr_assert_str_eq(test, res);
+	cr_assert_not_null(test);
+	cr_assert_str_not_empty(test);
+	cr_assert_str_eq(test, expected);
 }

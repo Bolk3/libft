@@ -1,51 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/30 13:32:54 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/30 13:44:45 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include "wraps.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <string.h>
-#include <wchar.h>
 
-size_t  __real_ft_strlen(const char *s);
-void    *__real_malloc(size_t size);
-bool    should_malloc_fail = false;
-
-size_t  __wrap_ft_strlen(const char *s)
+static void	teardown(void)
 {
-    return (strlen(s));
+	should_malloc_fail = false;
 }
 
-void    *__wrap_malloc(size_t size)
+TestSuite(ft_strdup, .fini=teardown);
+Test(ft_strdup, test_malloc_fail)
 {
-    if (should_malloc_fail)
-        return (NULL);
-    else
-        return (__real_malloc(size));
+	should_malloc_fail = true;
+	char	*str = "test";
+	char	*test = ft_strdup(str);
+
+	cr_assert_null(test);
 }
 
-void    setup(void)
+Test(ft_strdup, test_segfault, .signal=11)
 {
-    should_malloc_fail = false;
+	ft_strdup(NULL);
 }
 
-Test(ft_strdup, func_return_null_if_not_malloc, .init=setup)
+Test(ft_strdup, test_empty)
 {
-    char    *test = "test test";
-    char    *res;
+	char	*str = "";
+	char	*test = ft_strdup(str);
 
-    should_malloc_fail = true;
-    res = ft_strdup(test);
-    cr_assert_eq(res, NULL);
+	cr_assert_not_null(test);
+	cr_assert_str_empty(test);
 }
 
-Test(ft_strdup, func_return_dup, .init=setup)
+Test(ft_strdup, test_str)
 {
-    char    *test = "test test";
-    char    *res;
+	char	*str = "omedeto, shinji";
+	char	*test = ft_strdup(str);
 
-    res = ft_strdup(test);
-    for (int i = 0; test[i]; i++) {
-        cr_assert_eq(res[i], test[i]);
-    }
+	cr_assert_not_null(test);
+	cr_assert_str_not_empty(test);
+	cr_assert_str_eq(test, str);
 }

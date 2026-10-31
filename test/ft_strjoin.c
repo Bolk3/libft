@@ -1,84 +1,74 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/10/30 09:07:46 by resonnet          #+#    #+#             */
+/*   Updated: 2026/10/30 09:08:29 by resonnet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/libft.h"
+#include "wraps.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdio.h>
 
-bool    should_malloc_fail = false;
-
-void    *__real_malloc(size_t size);
-void    *__wrap_malloc(size_t size)
+static void	teardown(void)
 {
-    if (should_malloc_fail)
-        return (NULL);
-    else
-        return (__real_malloc(size));
+	should_malloc_fail = false;
 }
 
-void    setup(void)
+TestSuite(ft_strjoin, .fini=teardown);
+Test(ft_strjoin, test_malloc_fail)
 {
-    should_malloc_fail = false;
+	should_malloc_fail = true;
+	char	*s1 = "omedeto";
+	char	*s2 = ", shinji";
+	char	*test = ft_strjoin(s1, s2);
+
+	cr_assert_null(test);
 }
 
-TestSuite(ft_strjoin, .init=setup);
-Test(ft_strjoin, should_segfault_if_s1_null, .signal=11)
+Test(ft_strjoin, test_segfault_s1, .signal=11)
 {
-    ft_strjoin(NULL, "test");
+	ft_strjoin(NULL, ", shinji");
 }
 
-Test(ft_strjoin, should_segfault_if_s2_null, .signal=11)
+Test(ft_strjoin, test_segfault_s2, .signal=11)
 {
-    ft_strjoin("test", NULL);
+	ft_strjoin("omedeto", NULL);
 }
 
-Test(ft_strjoin, should_return_null_if_malloc_fail)
+Test(ft_strjoin, test_empty_s1_should_return_s2)
 {
-    char    *res;
+	char	*s2 = ", shinji";
+	char	*test = ft_strjoin("", s2);
 
-    should_malloc_fail = true;
-    res = ft_strjoin("test", "test");
-    cr_assert_null(res);
+	cr_assert_not_null(test);
+	cr_assert_str_eq(s2, test);
 }
 
-Test(ft_strjoin, return_concat_of_string_0)
+Test(ft_strjoin, test_empty_s2_should_return_s1)
 {
-    char    *res;
-    char    *s1 = "Michel ";
-    char    *s2 = "Sardou";
+	char	*s1 = "omedeto";
+	char	*test = ft_strjoin(s1, "");
 
-    res = ft_strjoin(s1, s2);
-    cr_assert_str_eq(res, "Michel Sardou");
+	cr_assert_not_null(test);
+	cr_assert_str_eq(s1, test);
 }
 
-Test(ft_strjoin, return_concat_of_string_1)
+Test(ft_strjoin, test_should_return_s1_plus_s2)
 {
-    char    *res;
-    char    *s1 = "de quoi tu parle fdp";
-    char    *s2 = " putain de merde";
+	char	*s1 = "omedeto";
+	char	*s2 = ", shinji";
+	char	expected[500];
+	char	*test = ft_strjoin(s1, s2);
 
-    res = ft_strjoin(s1, s2);
-    cr_assert_str_eq(res, "de quoi tu parle fdp putain de merde");
-}
-
-Test(ft_strjoin, empty_s1_return_s2)
-{
-    char    *res;
-    char    *s1 = "";
-    char    *s2 = "tien tien tien";
-
-    res = ft_strjoin(s1, s2);
-    cr_assert_str_eq(res, s2);
-}
-
-Test(ft_strjoin, empty_s2_return_s1)
-{
-    char    *res;
-    char    *s1 = "well well well";
-    char    *s2 = "";
-
-    res = ft_strjoin(s1, s2);
-    cr_assert_str_eq(res, s1);
+	sprintf(expected, "%s%s", s1, s2);
+	cr_assert_not_null(test);
+	cr_assert_str_eq(test, expected);
 }
