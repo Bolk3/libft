@@ -48,7 +48,7 @@ Test(ft_substr, test_start_gt_string_size)
 	cr_assert_null(test);
 }
 
-Test(ft_substr, test_start_plus_len_gt_string_start)
+Test(ft_substr, test_start_plus_len_gt_string_size)
 {
 	int		start = 2;
 	int		len = 30;
@@ -61,7 +61,7 @@ Test(ft_substr, test_start_plus_len_gt_string_start)
 	cr_assert_str_eq(test, expected);
 }
 
-Test(ft_substr, test_start_plus_len_lt_string_start)
+Test(ft_substr, test_start_plus_len_lt_string_size)
 {
 	int		start = 2;
 	int		len = 8;

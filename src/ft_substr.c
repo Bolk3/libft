@@ -20,6 +20,8 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = 0;
+	if (start > ft_strlen(s))
+		return (NULL);
 	res = malloc(len);
 	if (!res)
 		return (NULL);
@@ -28,5 +30,6 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 		res[i] = s[start + i];
 		i++;
 	}
+	res[i] = 0;
 	return (res);
 }
