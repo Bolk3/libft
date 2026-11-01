@@ -42,7 +42,7 @@ Test(ft_strlcpy, test_tronc)
 	char	test[5];
 	char	expected[5];
 
-	cr_assert_eq(strlcpy(expected, "omedeto, shinji", 5), ft_strlcpy(test, "omedeto, shinji", 6));
+	cr_assert_eq(strlcpy(expected, "omedeto, shinji", 5), ft_strlcpy(test, "omedeto, shinji", 5));
 	cr_assert_str_eq(test, expected);
 	cr_assert_eq(test[4], 0);
 }
@@ -51,7 +51,7 @@ Test(ft_strlcpy, test_dsize_1)
 {
 	char	test[5];
 
-	cr_assert_eq(1, ft_strlcpy(test, "test", 1));
+	cr_assert_eq(4, ft_strlcpy(test, "test", 1));
 	cr_assert_eq(test[0], 0);
 }
 
