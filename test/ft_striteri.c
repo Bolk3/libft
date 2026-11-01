@@ -28,7 +28,7 @@ Test(ft_striteri, test_segfault, .signal=11)
 
 Test(ft_striteri, test_empty_str)
 {
-	char	*test = "";
+	char	test[] = "";
 	ft_striteri(test, manip);
 
 	cr_assert_not_null(test);
@@ -37,8 +37,8 @@ Test(ft_striteri, test_empty_str)
 
 Test(ft_striteri, test_str)
 {
-	char	*test = "test";
-	char	*expected = "uftu";
+	char	test[] = "test";
+	char	expected[] = "uftu";
 	ft_striteri(test, manip);
 
 	cr_assert_not_null(test);
