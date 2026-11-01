@@ -12,11 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Norminette
-        uses: 42School/norminette@3.3.60
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          args:
-            - 'src'
-            - 'include'
+          python-version: '3.12'
+
+      - name: Install norminette
+        run: pip install norminette==3.3.60
+
+      - name: Run norminette
+        run: norminette src include
