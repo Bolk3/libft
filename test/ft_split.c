@@ -46,6 +46,14 @@ Test(ft_split, test_malloc_fail)
 	cr_assert_null(test);
 }
 
+Test(ft_split, test_malloc_fail_during_parse)
+{
+	malloc_fail_at = 3;
+	char	**test = ft_split("a b c f s e r", ' ');
+
+	cr_assert_null(test);
+}
+
 Test(ft_split, test_segfault, .signal=11)
 {
 	ft_split(NULL, 'a');

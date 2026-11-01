@@ -15,6 +15,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+static char	**cleanup(char **tab, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+		free(tab[i++]);
+	return (NULL);
+}
+
 static int	get_array_size(const char *s, int c)
 {
 	int	res;
@@ -52,7 +62,10 @@ char	**ft_split(const char *s, char c)
 		j = i;
 		while (s[j] != c && s[j])
 			j++;
-		res[tab++] = ft_substr(s, i, j);
+		res[tab] = ft_substr(s, i, j);
+		if (!res[tab])
+			return (cleanup(res, tab));
+		tab++;
 		i = j;
 	}
 	res[tab] = NULL;
