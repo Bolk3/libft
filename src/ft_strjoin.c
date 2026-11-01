@@ -29,7 +29,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		res[j++] = s1[i++];
 	i = 0;
 	while (s2[i])
-		res[j++] = s1[i++];
+		res[j++] = s2[i++];
 	res[j] = 0;
 	return (res);
 }
