@@ -31,8 +31,9 @@ Test(ft_strlcat, test_src_lt_dst)
 {
 	char	*expected = "bonjour, au revoir";
 	char	dst[50] = "bonjour";
+	int		size = ft_strlcat(dst, ", au revoir", 50);
 
-	cr_assert_eq(ft_strlcat(dst, ", au revoir", 50), 12);
+	cr_assert_eq(size, 18);
 	cr_assert_str_eq(expected, dst);
 	cr_assert_eq(0, dst[18]);
 }
@@ -40,8 +41,9 @@ Test(ft_strlcat, test_src_lt_dst)
 Test(ft_strlcat, test_tronc)
 {
 	char	test[13] = "omedeto, ";
+	int		size = ft_strlcat(test, "shinji", 13);
 
-	cr_assert_eq(ft_strlcat(test, "shinji", 13), 4);
+	cr_assert_eq(size, 15);
 	cr_assert_str_eq(test, "omedeto, shi");
 }
 
@@ -49,7 +51,8 @@ Test(ft_strlcat, test_empty_src)
 {
 	char	test[15] = "omedeto, sh";
 	char	*cpy = strdup(test);
+	int		size = ft_strlcat(test, "", 15);
 
-	cr_assert_eq(0, ft_strlcat(test, "", 15));
+	cr_assert_eq(size, 11);
 	cr_assert_str_eq(cpy, test);
 }
