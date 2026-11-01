@@ -30,23 +30,42 @@ static size_t	get_new_size(const char *str, const char *set)
 	return (res);
 }
 
+static int	is_sep(const char c, const char *set)
+{
+	int	i;
+	int	flag;
+
+	i = 0;
+	flag = 0;
+	while (set[i])
+	{
+		if (c == set[i])
+		{
+			flag = 1;
+			break ;
+		}
+		i++;
+	}
+	return (flag);
+}
+
 char	*ft_strtrim(const char *s1, const char *set)
 {
 	char	*res;
-	size_t	i;
-	size_t	tab;
+	int		i;
+	int		j;
 
 	i = 0;
-	tab = 0;
-	res = malloc(get_new_size(s1, set));
+	j = 0;
+	res = malloc(get_new_size(s1, set) + 1);
 	if (!res)
-		return (NULL);
+		return (res);
 	while (s1[i])
 	{
-		if (ft_strchr(set, s1[i]))
-			res[tab++] = s1[i];
+		if (!is_sep(s1[i], set))
+			res[j++] = s1[i];
 		i++;
 	}
-	res[tab] = 0;
+	res[j] = 0;
 	return (res);
 }
