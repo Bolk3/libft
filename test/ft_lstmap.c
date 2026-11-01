@@ -37,6 +37,17 @@ static void	*manip(void *ptr)
 
 TestSuite(ft_lstmap, .init=setup, .fini=teardown);
 
+Test(ft_lstmap, test_malloc_fail_during)
+{
+	malloc_fail_at = 3;
+	t_list	em1 = {.next = NULL, .content = "1"};
+	t_list	em2 = {.next = &em1, .content = "2"};
+	t_list	em3 = {.next = &em2, .content = "3"};
+	t_list	*test = ft_lstmap(&em3, manip, free);
+
+	cr_assert_null(test);
+}
+
 Test(ft_lstmap, test_malloc_fail)
 {
 	malloc_fail_at = 1;
