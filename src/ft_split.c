@@ -18,7 +18,7 @@
 static int	get_array_size(const char *s, int c)
 {
 	int	res;
-	int i;
+	int	i;
 
 	res = 0;
 	i = 0;
