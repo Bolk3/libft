@@ -12,14 +12,12 @@
 
 
 #include "../include/libft.h"
+#include "wraps.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
-
-void	*__real_malloc(size_t size);
 
 Test(ft_lstclear, test_empty_list)
 {
