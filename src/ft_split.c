@@ -13,22 +13,22 @@
 #include "../include/libft.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
-static int	get_new_size(const char *s, int c)
+static int	get_array_size(const char *s, int c)
 {
 	int	res;
-	int	i;
-	int	j;
+	int i;
 
 	res = 0;
 	i = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
+		while (s[i] != c && s[i])
 			i++;
-		j = i;
-		while (s[j] != c && s[j])
-			j++;
+		res++;
+		while (s[i] == c && s[i])
+			i++;
 	}
 	return (res);
 }
@@ -36,13 +36,13 @@ static int	get_new_size(const char *s, int c)
 char	**ft_split(const char *s, char c)
 {
 	char	**res;
-	size_t	tab;
-	size_t	i;
-	size_t	j;
-	
-	i = 0;
+	int		tab;
+	int		i;
+	int		j;
+
 	tab = 0;
-	res = malloc(get_new_size(s, c));
+	i = 0;
+	res = malloc(get_array_size(s, c));
 	if (!res)
 		return (NULL);
 	while (s[i])
@@ -52,7 +52,7 @@ char	**ft_split(const char *s, char c)
 		j = i;
 		while (s[j] != c && s[j])
 			j++;
-		res[tab++] = ft_substr(s, i, j - i);
+		res[tab++] = ft_substr(s, i, j);
 		i = j;
 	}
 	res[tab] = NULL;
