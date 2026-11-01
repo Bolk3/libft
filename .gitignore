@@ -3,3 +3,4 @@
 *.test
 *.gcda
 *.gcno
+./compile_commands.json

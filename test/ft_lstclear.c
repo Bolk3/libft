@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "../include/libft.h"
+#include <libft.h>
 #include "wraps.h"
 #include <criterion/criterion.h>
 #include <criterion/internal/assert.h>

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include <libft.h>
 #include <criterion/logging.h>
 #include <strings.h>
 #include <signal.h>
@@ -37,6 +37,6 @@ Test(ft_memcpy, test_non_overlaping_array)
 	ft_memcpy(dest, src, 15);
 	for (int i = 0; i < 15; i++) {
 		cr_log_info("%c, %c", dest[i], src[i]);
-		cr_expect_eq(dest[i], src[i]);
+		cr_assert_eq(dest[i], src[i]);
 	}
 }

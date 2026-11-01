@@ -2,7 +2,7 @@ NAME:=				libft.a
 TEST_NAME:=			libft.test
 
 CC:=					cc
-CFLAGS:=				-Wall -Wextra -Werror
+CFLAGS:=				-Wall -Wextra -Werror -I ./include
 LCRITERION:=			-lcriterion --coverage 
 
 COMMA:=				,

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include <libft.h>
 #include <criterion/internal/assert.h>
 #include <criterion/internal/test.h>
 #include <string.h>
