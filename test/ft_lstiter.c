@@ -33,8 +33,8 @@ Test(ft_lstiter, test_empty_list)
 
 Test(ft_lstiter, test_list)
 {
-	char	*ctx1 = "qwedd4sdfvce";
-	char	*ctx2 = "ssdxxxxfrt";
+	char	ctx1[] = "qwedd4sdfvce";
+	char	ctx2[] = "ssdxxxxfrt";
 	t_list	em = {.next=NULL, .content=ctx1};
 	t_list	em1 = {.next=&em, .content=ctx2};
 	t_list	*lst = &em1;
