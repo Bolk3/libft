@@ -13,7 +13,7 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <strings.h>
-#include <sys/mman.h>
+#include <stdint.h>
 
 void	*ft_calloc(size_t n, size_t size)
 {
@@ -22,7 +22,7 @@ void	*ft_calloc(size_t n, size_t size)
 
 	if (!n || !size)
 		msize = 1;
-	else if (n > MAP_32BIT|| size > MAP_32BIT)
+	else if (size > SIZE_MAX / n)
 		return (NULL);
 	else
 		msize = n * size;
