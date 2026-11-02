@@ -25,10 +25,11 @@ char	*ft_strdup(const char *s)
 	res = malloc(len + 1);
 	if (!res)
 		return (NULL);
-	while (i <= len + 1)
+	while (i < len)
 	{
 		res[i] = s[i];
 		i++;
 	}
+	res[i] = '\0';
 	return (res);
 }
