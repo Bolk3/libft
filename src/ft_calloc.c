@@ -12,16 +12,23 @@
 
 #include "libft.h"
 #include <stdlib.h>
+#include <strings.h>
+#include <sys/mman.h>
 
 void	*ft_calloc(size_t n, size_t size)
 {
 	char	*res;
+	size_t	msize;
 
 	if (!n || !size)
+		msize = 1;
+	else if (n > MAP_32BIT|| size > MAP_32BIT)
 		return (NULL);
-	res = malloc(n * size);
+	else
+		msize = n * size;
+	res = malloc(msize);
 	if (!res)
 		return (NULL);
-	ft_bzero(res, n * size);
+	bzero(res, msize);
 	return (res);
 }
