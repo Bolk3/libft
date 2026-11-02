@@ -10,35 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <criterion/criterion.h>
 #include <criterion/internal/test.h>
-#include <libft.h>
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
-#include <ctype.h>
 #include <limits.h>
-#include <stdlib.h>
-#include <time.h>
+#include <ctype.h>
 
-Test(ft_isascii, test_rand_pos_int)
+Test(ft_isascii, test_all_char_range)
 {
-	int	value;
-
-	for (int i = 0;	i <= 10; i++) {
-		srand(time(NULL));
-		value = rand() % 10000;
-		cr_assert_eq(ft_isascii(value), isascii(value));
-	}
-}
-
-Test(ft_isascii, test_rand_neg_int)
-{
-	int	value;
-
-	for (int i = 0; i <= 10; i++) {
-		srand(time(NULL));
-		value = rand() % 10000;
-		value *= -1;
-		cr_assert_eq(ft_isascii(value), isascii(value));
+	for (int i = CHAR_MIN; i <= CHAR_MAX; i++) {
+		cr_assert_eq(ft_isascii(i) != 0, isascii(i) != 0);
 	}
 }

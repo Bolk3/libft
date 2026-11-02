@@ -17,17 +17,9 @@
 #include <ctype.h>
 #include <limits.h>
 
-Test(ft_isdigit, test_all_digits)
-{
-	for (int i = '0'; i <= '9'; i++) {
-		cr_assert_eq(ft_isdigit(i) != 0, isdigit(i) != 0);
-	}
-}
-
-Test(ft_isdigit, test_all_non_digit)
+Test(ft_isdigit, test_all_char_range)
 {
 	for (int i = CHAR_MIN; i <= CHAR_MAX; i++) {
-		if (i < '0' || i > '9')
-			cr_assert_eq(ft_isdigit(i) != 0, isdigit(i) != 0);
+		cr_assert_eq(ft_isdigit(i) != 0, isdigit(i) != 0);
 	}
 }
