@@ -22,7 +22,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	cpy = (char *)s;
 	while (i < n)
 	{
-		if (cpy[i] == c)
+		if (cpy[i] == c % 256)
 			return (cpy + i);
 		i++;
 	}
