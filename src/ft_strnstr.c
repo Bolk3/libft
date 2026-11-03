@@ -6,7 +6,7 @@
 /*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/25 18:27:53 by resonnet          #+#    #+#             */
-/*   Updated: 2026/10/25 18:34:44 by resonnet         ###   ########.fr       */
+/*   Updated: 2026/11/03 16:32:18 by resonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,17 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 
 	i = 0;
 	j = 0;
+	if (!ft_strlen(little))
+		return ((char *)big);
 	while (big[i] && i < len)
 	{
-		if (!little[j])
-			return ((char *)big + i);
-		if (big[i + j] == little[j])
+		while (big[i + j] == little[j] && little[j] && i + j < len)
 			j++;
-		else if (big[i + j] != little[j] && !j)
-			i++;
+		if (!ft_strlen(little + j))
+			return ((char *)big + i);
 		else
-		{
-			i += j;
 			j = 0;
-		}
+		i++;
 	}
 	return (NULL);
 }

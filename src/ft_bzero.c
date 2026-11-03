@@ -6,11 +6,12 @@
 /*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/24 16:23:46 by resonnet          #+#    #+#             */
-/*   Updated: 2026/10/24 16:23:55 by resonnet         ###   ########.fr       */
+/*   Updated: 2026/11/03 14:32:23 by resonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stddef.h>
 
 void	ft_bzero(void *a, size_t n)
 {

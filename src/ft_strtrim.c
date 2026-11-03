@@ -6,7 +6,7 @@
 /*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 17:06:42 by resonnet          #+#    #+#             */
-/*   Updated: 2026/10/27 17:22:50 by resonnet         ###   ########.fr       */
+/*   Updated: 2026/11/03 15:08:19 by resonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,69 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static size_t	get_new_size(const char *str, const char *set)
+static int	is_sep(const char c, const char *sep)
 {
-	size_t	res;
 	size_t	i;
-
-	res = 0;
+	
 	i = 0;
-	while (str[i])
+	while (sep[i])
 	{
-		if (!ft_strchr(set, str[i]))
-			res++;
+		if (c == sep[i])
+			return (1);
 		i++;
 	}
-	return (res);
+	return (0);
 }
 
-static int	is_sep(const char c, const char *set)
+static int	get_str_size(const char *s, const char *set)
 {
 	int	i;
-	int	flag;
+	int	start;
+	int	end;
 
 	i = 0;
-	flag = 0;
-	while (set[i])
+	start = 0;
+	end = 0;
+	while (s[i] && is_sep(s[i], set))
 	{
-		if (c == set[i])
-		{
-			flag = 1;
-			break ;
-		}
 		i++;
+		start++;
 	}
-	return (flag);
+	i = ft_strlen(s) - 1;
+	while (i >= 0 && is_sep(s[i], set))
+	{
+		i--;
+		end++;
+	}
+	if (start && end && start == end)
+		return (0);
+	return (ft_strlen(s) - (start + end));
 }
 
 char	*ft_strtrim(const char *s1, const char *set)
 {
 	char	*res;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
+	int		ssize;
 
 	i = 0;
 	j = 0;
-	res = malloc(get_new_size(s1, set) + 1);
+	ssize = get_str_size(s1, set);
+	res = malloc(ssize + 1);
 	if (!res)
-		return (res);
-	while (s1[i])
-	{
-		if (!is_sep(s1[i], set))
-			res[j++] = s1[i];
+		return (NULL);
+	while (s1[i] && is_sep(s1[i], set))
 		i++;
-	}
+	while (s1[i] && !is_sep(s1[i], set))
+		res[j++] = s1[i++];
 	res[j] = 0;
 	return (res);
 }
+
+/*
+int	main(void)
+{
+	ft_strtrim("   xxx   xxx", " x");
+}
+*/

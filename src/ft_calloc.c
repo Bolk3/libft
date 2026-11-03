@@ -6,13 +6,12 @@
 /*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/25 18:55:21 by resonnet          #+#    #+#             */
-/*   Updated: 2026/10/25 18:58:00 by resonnet         ###   ########.fr       */
+/*   Updated: 2026/11/03 14:29:50 by resonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
-#include <strings.h>
 #include <stdint.h>
 
 void	*ft_calloc(size_t n, size_t size)
@@ -29,6 +28,6 @@ void	*ft_calloc(size_t n, size_t size)
 	res = malloc(msize);
 	if (!res)
 		return (NULL);
-	bzero(res, msize);
+	ft_bzero(res, msize);
 	return (res);
 }
