@@ -14,10 +14,11 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static int	is_sep(const char c, const char *sep)
+
+static int	is_sep(char c, const char *sep)
 {
-	size_t	i;
-	
+	size_t i;
+
 	i = 0;
 	while (sep[i])
 	{
@@ -28,55 +29,59 @@ static int	is_sep(const char c, const char *sep)
 	return (0);
 }
 
-static int	get_str_size(const char *s, const char *set)
+static size_t	get_end(const char *s, const char *sep)
 {
-	int	i;
-	int	start;
-	int	end;
+	size_t	cmpt;
+	int		i;
 
-	i = 0;
-	start = 0;
-	end = 0;
-	while (s[i] && is_sep(s[i], set))
-	{
-		i++;
-		start++;
-	}
 	i = ft_strlen(s) - 1;
-	while (i >= 0 && is_sep(s[i], set))
+	cmpt = 0;
+	while (i >= 0 && is_sep(s[i], sep))
 	{
 		i--;
-		end++;
+		cmpt++;
 	}
+	return (cmpt);
+}
+
+static size_t	get_start(const char *s, const char *sep)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] && is_sep(s[i], sep))
+		i++;
+	return (i);
+}
+
+static size_t	get_str_size(const char *s, const char *sep)
+{
+	size_t	start;
+	size_t	end;
+
+	start = get_start(s, sep);
+	end = get_end(s, sep);
 	if (start && end && start == end)
-		return (0);
-	return (ft_strlen(s) - (start + end));
+		return (ft_strlen(s));
+	return (2);
 }
 
 char	*ft_strtrim(const char *s1, const char *set)
 {
-	char	*res;
-	size_t	i;
-	size_t	j;
-	int		ssize;
+	size_t	start;
+	size_t	size;
 
-	i = 0;
-	j = 0;
-	ssize = get_str_size(s1, set);
-	res = malloc(ssize + 1);
-	if (!res)
-		return (NULL);
-	while (s1[i] && is_sep(s1[i], set))
-		i++;
-	while (s1[i] && !is_sep(s1[i], set))
-		res[j++] = s1[i++];
-	res[j] = 0;
-	return (res);
+	start = get_start(s1, set);
+	size = get_str_size(s1, set);
+	return (ft_substr(s1, start, size));
 }
 
-/*
+
+#include <stdio.h>
 int	main(void)
 {
-	ft_strtrim("   xxx   xxx", " x");
+	char	*s = ft_strtrim("ababa", "a");
+
+	printf("%s: %lu, %lu", s, ft_strlen(s), ft_strlen("bab"));
 }
-*/
+
