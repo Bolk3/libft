@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wraps.c                                            :+:      :+:    :+:   */
+/*   checks.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: resonnet <renald.sonnet@learner.42.tech>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/29 12:13:16 by resonnet          #+#    #+#             */
-/*   Updated: 2026/10/29 15:14:36 by resonnet         ###   ########.fr       */
+/*   Created: 2026/11/05 20:08:26 by resonnet          #+#    #+#             */
+/*   Updated: 2026/11/05 20:08:57 by resonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wraps.h"
-#include <stdbool.h>
+#include <checks.hpp>
 
-bool	should_malloc_fail = false;
-
-void	*__wrap_malloc(size_t size)
+bool	leakCheck()
 {
-	if (should_malloc_fail)
-		return (NULL);
-	return (__real_malloc(size));
+	return (mem_alloc.empty());
 }
