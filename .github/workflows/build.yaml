@@ -1,0 +1,65 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Norminette
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-pip
+          pip install --break-system-packages norminette
+          norminette src/*.c
+          norminette include/libft.h
+
+      - name: Install and Build Google Test
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtest-dev libgmock-dev cmake
+          
+          cd /usr/src/googletest
+          sudo cmake .
+          sudo make
+          sudo cp lib/libgtest*.a /usr/lib/
+
+      - name: Run GTest tests
+        run: |
+          make test
+          ./libft.test
+
+      - name: Build project
+        run: |
+          make fclean || true
+          make
+
+      - name: Package artifacts
+        run: |
+          mkdir -p release
+          cp src/*.c release/
+          cp include/libft.h release/
+          cp libft.a release/
+
+      - name: Create Zip archive
+        run: |
+          cd release
+          zip -r ../libft-${{ github.ref_name }}.zip .
+          cd ..
+
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            libft-${{ github.ref_name }}.zip
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
