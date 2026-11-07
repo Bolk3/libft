@@ -17,10 +17,13 @@ endif
 WRAPS=			-Wl,--wrap=malloc -Wl,--wrap=free
 
 SRC=			./src/ft_lstnew.c\
+				./src/ft_isalpha.c\
+				./src/ft_isdigit.c\
 				./src/ft_putchar_fd.c\
 				./src/ft_putstr_fd.c\
 				./src/ft_putendl_fd.c\
-				./src/ft_putnbr_fd.c
+				./src/ft_putnbr_fd.c\
+				./src/ft_strdup.c
 
 TSRC=			$(SRC:./src/%.c=./test/%.cpp)
 
