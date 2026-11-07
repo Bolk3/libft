@@ -6,11 +6,22 @@ CXXFLAGS=		-std=c++17 -Wall -Wextra -Werror -I ./include/
 CC=				cc
 CFLAGS=			-Wall -Wextra -Werror -I ./include/
 
-GTEST_LIBS=		-lgtest -lgtest_main -lpthread
+ifneq ($(wildcard $(HOME)/googletest),)
+	GTEST_DIR=		$(HOME)/googletest/googletest
+	CXXFLAGS+=		-isystem $(GTEST_DIR)/include
+	GTEST_LIBS=		$(GTEST_DIR)/libgtest.a $(GTEST_DIR)/libgtest_main.a -lpthread
+else
+	GTEST_LIBS=		-lgtest -lgtest_main -lpthread
+endif
 
 WRAPS=			-Wl,--wrap=malloc -Wl,--wrap=free
 
-SRC=			./src/ft_lstnew.c
+SRC=			./src/ft_lstnew.c\
+				./src/ft_putchar_fd.c\
+				./src/ft_putstr_fd.c\
+				./src/ft_putendl_fd.c\
+				./src/ft_putnbr_fd.c
+
 TSRC=			$(SRC:./src/%.c=./test/%.cpp)
 
 OBJS=			$(SRC:.c=.o)
